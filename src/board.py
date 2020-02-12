@@ -5,14 +5,26 @@ class Board(object):
         Initializes the Board of size 3x3
         """
         self.board = [
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9]
+            [None, None, None],
+            [None, None, None],
+            [None, None, None]
             ]
 
     def draw_board(self):
+
+        # Print columns
+        print('  1', '  2', ' 3')
+        
+        rowNumber = 1
         for row in self.board:
-            print(row)
+            print(str(rowNumber) + '|', end =" ")
+            for col in row:
+                if col is None:
+                    print(' ' + '|', end =" ")
+                else:
+                    print(col + '|', end =" ")
+            print("")
+            rowNumber = rowNumber + 1
 
     # Functions to check validity of input
 
@@ -32,12 +44,21 @@ class Board(object):
 
         :return: ????
         """
+    
 
-        if self.in_bounds(column, row):
+        if self.in_bounds(column, row) and not (self.positionAlreadyMarked(column, row)):
             self.board[column][row] = player
             return True
         else:
             return False
+
+    def positionAlreadyMarked(self, column, row):
+        if self.board[row][column] is not None:
+            return False
+        
+        else:
+            return True
+
 
     # Check winners
 
@@ -99,7 +120,16 @@ class Board(object):
             return winner
         reversed_board = self.board[::-1]
         winner = self.check_diag(reversed_board, column_length)
-        return winner        
+        return winner
+
+    def __boardFull__(self):
+        # Count number of empty slots
+
+        for row in self.board:
+            for col in row:
+                if col is None:
+                    return None
+
 
     def check_for_winner(self):
         """
@@ -111,4 +141,5 @@ class Board(object):
         winner = self.__winner_in_row__()
         winner = self.__winner_in_column__()
         winner = self.__winner_in_diag__()
+        winner = self.__boardFull__()
         return winner
