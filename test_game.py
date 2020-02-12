@@ -25,13 +25,14 @@ class TestGameEndGame(unittest.TestCase):
         test_game = game.Game("Player1", "Player2")
         winner = test_game.players[0]
         win = test_game.end_game(winner)
+        print(win)
         self.assertTrue(win)
 
 
 class TestGameIsValidPlayer(unittest.TestCase):
     def test_player_is_valid(self):
         test_game = game.Game("Player1", "Player2")
-        test_player = player.Player("Player1", "X")
+        test_player = test_player.players[0]
         valid = test_game.is_valid_player(test_player)
         self.assertTrue(valid)
 

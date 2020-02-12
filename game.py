@@ -38,13 +38,15 @@ class Game:
     def end_game(self, winner):
         if winner in self.players:
             print(f"{winner.name} has won the game!")
+            return True
         else:
             print("Cat's game...")
+            return False
             
     def get_move(self, player):
         move = input(f"{player.name}'s turn: enter your move (x, y): ")
         return move
 
     def is_valid_player(self, player):
-        return player in (self.player1, self.player2)
+        return player in self.players
     
