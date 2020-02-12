@@ -3,8 +3,8 @@ import board, player
 
 class Game:
     def __init__(self, p1_name, p2_name):
-        board = board.Board()
-        players = [
+        self.board = board.Board()
+        self.players = [
             player.Player(p1_name, "X"),
             player.Player(p2_name, "O")
         ]
@@ -23,12 +23,13 @@ class Game:
     
     def run_player(self, player):
         self.board.draw_board()
-        while not self.check_move(player):
-            pass
+        while True:
+            move = self.get_move(player)
+            if self.check_move(move, player):
+                break
         return self.board.check_for_winner()
 
-    def check_move(self, player):
-        move = self.get_move(player)
+    def check_move(self, move, player):
         if not self.board.mark_square(move[0], move[1], player.symbol):
             print("Invalid move, try again...")
             return False

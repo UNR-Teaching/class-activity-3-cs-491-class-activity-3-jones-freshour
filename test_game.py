@@ -2,36 +2,44 @@ import unittest
 import game, player, board
 
 
-class TestGameRun(unittest.TestCase):
-    def test_run_no_winner(self):
-        # test_game = game.Game("Player1", "Player2")
-        # winner = test_game.run()
-        winner = None
-        self.assertIsNone(winner)
-
-
 class TestGameCheckMove(unittest.TestCase):
     def test_check_move_valid(self):
-        pass
+        test_game = game.Game("Player1", "Player2")
+        valid = test_game.check_move((0, 0), test_game.players[0])
+        self.assertTrue(valid)
 
     def test_check_move_invalid(self):
-        pass
+        test_game = game.Game("Player1", "Player2")
+        valid = test_game.check_move((0, 5), test_game.players[0])
+        self.assertFalse(valid)
 
 
 class TestGameEndGame(unittest.TestCase):
     def test_end_game_no_winner(self):
-        pass
+        test_game = game.Game("Player1", "Player2")
+        winner = 'boardfull'
+        win = test_game.end_game(winner)
+        self.assertFalse(win)
 
     def test_end_game_winner(self):
-        pass
+        test_game = game.Game("Player1", "Player2")
+        winner = test_game.players[0]
+        win = test_game.end_game(winner)
+        self.assertTrue(win)
 
 
 class TestGameIsValidPlayer(unittest.TestCase):
     def test_player_is_valid(self):
-        pass
+        test_game = game.Game("Player1", "Player2")
+        test_player = player.Player("Player1", "X")
+        valid = test_game.is_valid_player(test_player)
+        self.assertTrue(valid)
 
     def test_player_not_valid(self):
-        pass
+        test_game = game.Game("Player1", "Player2")
+        test_player = player.Player("Player3", "Y")
+        valid = test_game.is_valid_player(test_player)
+        self.assertFalse(valid)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-class Board(object):
+class Board:
 
     def __init__(self):
         """
@@ -95,7 +95,7 @@ class Board(object):
                 continue
 
             # Check if there is three of said element
-            if row.count(firstElem) == row_length:
+            if row.count(firstElem) == column_length:
                 return firstElem
 
         return None
