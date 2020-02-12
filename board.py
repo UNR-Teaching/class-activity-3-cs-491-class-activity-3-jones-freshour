@@ -46,16 +46,20 @@ class Board:
         """
     
 
-        if self.in_bounds(column, row) and not (self.positionAlreadyMarked(column, row)):
+        if not self.in_bounds(column, row):
+            return False
+
+        if not self.positionAlreadyMarked(column, row):
             self.board[column][row] = player
             return True
         else:
             return False
 
     def positionAlreadyMarked(self, column, row):
-        if self.board[row][column] is not None:
+
+        if self.board[row][column] is None:
             return False
-        
+            
         else:
             return True
 
@@ -80,22 +84,24 @@ class Board:
                 
 
     def __winner_in_column__(self):
-        column_length = len(self.board)
+        numberOfRows = len(self.board)
+
         values = []
-        for column in range(column_length):
+
+        for col in range(numberOfRows):
             values.clear()
-            for row in range(column_length):
-                values.append(self.board[row][column])
+            for row in range(numberOfRows):
+                values.append(self.board[row][col])
 
             # get first element in the row (i.e. X or O)
-            firstElem = row[0]
+            firstElem = values[0]
 
             # if first element is None then bail out
             if firstElem == None:
                 continue
 
             # Check if there is three of said element
-            if row.count(firstElem) == column_length:
+            if values.count(firstElem) == numberOfRows:
                 return firstElem
 
         return None
@@ -130,6 +136,8 @@ class Board:
                 if col is None:
                     return None
 
+        return 'boardfull'
+
 
     def check_for_winner(self):
         """
@@ -141,5 +149,8 @@ class Board:
         winner = self.__winner_in_row__()
         winner = self.__winner_in_column__()
         winner = self.__winner_in_diag__()
-        winner = self.__boardFull__()
+
+        if winner is None:
+            winner = self.__boardFull__()
+           
         return winner
