@@ -4,9 +4,6 @@ class Board(object):
         """
         Initializes the Board of size 3x3
         """
-
-        self.player1 = "X"
-        self.player2 = "O"
         self.board = [
             [1, 2, 3],
             [4, 5, 6],
@@ -23,9 +20,6 @@ class Board(object):
     def in_bounds(column, row):
         return 0 <= column < 3 and 0 <= row < 3
 
-    def is_valid_player(self, player):
-        return player in (self.player1, self.player2)
-
     # Functions to manipulate the board
 
     def mark_square(self, column, row, player):
@@ -39,33 +33,50 @@ class Board(object):
         :return: ????
         """
 
-        if self.in_bounds(column, row) and self.is_valid_player(player):
+        if self.in_bounds(column, row):
             self.board[column][row] = player
             return True
         else:
             return False
 
-    def winner_in_row(self):
+    # Check winners
+
+    def __winner_in_row__(self):
         row_length = len(self.board[0])
         for row in self.board:
-            if row.count(self.player1) == row_length:
-                return self.player1
-            elif row.count(self.player2) == row_length:
-                return self.player2
+            # get first element in the row (i.e. X or O)
+            firstElem = row[0]
+
+            # if first element is None then bail out
+            if firstElem == None:
+                continue
+
+            # Check if there is three of said element
+            if row.count(firstElem) == row_length:
+                return firstElem
+
         return None
                 
 
-    def winner_in_column(self):
+    def __winner_in_column__(self):
         column_length = len(self.board)
         values = []
         for column in range(column_length):
             values.clear()
             for row in range(column_length):
                 values.append(self.board[row][column])
-            if values.count(self.player1) == column_length:
-                return self.player1
-            elif values.count(self.player2) == column_length:
-                return self.player2
+
+            # get first element in the row (i.e. X or O)
+            firstElem = row[0]
+
+            # if first element is None then bail out
+            if firstElem == None:
+                continue
+
+            # Check if there is three of said element
+            if row.count(firstElem) == row_length:
+                return firstElem
+
         return None
 
     @staticmethod
@@ -81,7 +92,7 @@ class Board(object):
         else:
             return None
 
-    def winner_in_diag(self):
+    def __winner_in_diag__(self):
         column_length = len(self.board)
         winner = self.check_diag(self.board, column_length)
         if winner:
@@ -90,24 +101,14 @@ class Board(object):
         winner = self.check_diag(reversed_board, column_length)
         return winner        
 
-    def has_winner(self):
+    def check_for_winner(self):
         """
         Checks to see if there is a current winner of the game
 
         :return: ????
         """
 
-        winner = self.winner_in_row()
-        winner = self.winner_in_column()
-        winner = self.winner_in_diag()
+        winner = self.__winner_in_row__()
+        winner = self.__winner_in_column__()
+        winner = self.__winner_in_diag__()
         return winner
-
-    def play_game(self):
-        """
-        Takes moves from raw_input as comma-separated list in form (column, row, player)
-            and makes a move. When a winner has been determined, the game ends
-        
-        :return: (str) the letter representing the player who won
-        """
-        
-        pass
