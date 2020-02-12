@@ -32,7 +32,7 @@ class TestGameEndGame(unittest.TestCase):
 class TestGameIsValidPlayer(unittest.TestCase):
     def test_player_is_valid(self):
         test_game = game.Game("Player1", "Player2")
-        test_player = test_player.players[0]
+        test_player = test_game.players[0]
         valid = test_game.is_valid_player(test_player)
         self.assertTrue(valid)
 
